@@ -236,6 +236,40 @@ in
           RuntimeDirectoryMode = "0700";
           StateDirectory = "scrutiny";
           StateDirectoryMode = "0750";
+
+          RemoveIPC = true;
+          RestrictNamespaces = true;
+          RestrictRealtime = true;
+          SystemCallFilter = [
+            "@system-service"
+            "~@privileged"
+            "~@resources"
+          ];
+          SystemCallArchitectures = "native";
+          LockPersonality = true;
+          CapabilityBoundingSet = "";
+          NoNewPrivileges = true;
+          PrivateTmp = true;
+          PrivateMounts = true;
+          ProtectClock = true;
+          ProtectControlGroups = true;
+          ProtectHome = true;
+          ProtectHostname = true;
+          ProtectKernelLogs = true;
+          ProtectKernelModules = true;
+          ProtectKernelTunables = true;
+          ProtectSystem = "strict";
+          ProtectProc = "invisible";
+          ProcSubset = "pid";
+          RestrictAddressFamilies = [
+            "AF_NETLINK"
+            "AF_INET"
+            "AF_INET6"
+          ];
+          SocketBindDeny = "any";
+          SocketBindAllow = [
+            "tcp:${toString config.services.scrutiny.settings.web.listen.port}"
+          ];
         };
       };
     })
